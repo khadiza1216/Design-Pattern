@@ -17,9 +17,15 @@ class Singleton {
 }
 public class Main {
     public static void main(String[] args) {
-        Singleton obj1 = Singleton.getInstance();
-        Singleton obj2 = Singleton.getInstance();
+        Singleton s1 = Singleton.getInstance();
+        Singleton s2 = Singleton.getInstance();
 
-        System.out.println(obj1 == obj2); // true
+        s1.display();
+        if(s1==s2){
+            System.out.println("both are same");
+        }
+        else{
+            System.out.println("both are not same");
+        }
     }
 }
