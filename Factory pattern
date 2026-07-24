@@ -1,0 +1,62 @@
+interface payment{
+  void pay();  
+}
+
+class creditcard implements payment{
+    @Override
+    public void pay(){
+        System.out.println("Payment done using credit card");
+    }
+}
+
+class bkash implements payment{
+    @Override
+    public void pay(){
+        System.out.println("Payment done using bkash");
+    }
+}
+
+
+class visacard implements payment{
+    @Override
+    public void pay(){
+        System.out.println("Payment done using visa card");
+    }
+}
+
+
+class factory{
+    public payment makepayment(String type){
+        if(type.equals("Credit Card")){
+            return new creditcard();
+        }
+        if(type.equals("Bkash")){
+            return new bkash();
+        }
+        if(type.equals("Visa Card")){
+            return new visacard();
+        }
+        return null;
+    }
+}
+
+ class Main {
+    public static void main(String[]args){
+        factory f = new factory();
+
+        payment p1= f.makepayment("Credit Card");
+        p1.pay();
+
+        payment p2= f.makepayment("Bkash");
+        p2.pay();   
+
+        payment p3= f.makepayment("Visa Card");
+        p3.pay();
+    }
+    
+}
+
+
+
+
+
