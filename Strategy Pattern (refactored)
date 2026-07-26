@@ -1,0 +1,72 @@
+
+
+interface payment {
+  void pay (double amount);  
+}
+
+class bkash implements payment{
+    public void pay(double amount){
+        System.out.println("Payment of " + amount + " made using bKash.");
+    }
+}
+
+class creditCard implements payment{
+    public void pay(double amount){
+        System.out.println("Payment of " + amount + " made using credit card.");
+    }
+}
+
+class ShoppingCart {
+    private payment payment;
+
+    public void setPayment(payment payment) {
+        this.payment = payment;
+    }
+
+    public void pay(double amount) {
+        payment.pay(amount);
+    }
+}
+
+import java.util.Scanner;
+class main{
+    public static void main (String[]args){
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Enter payment method 1. bkash 2creditCard): ");
+        int type= sc.nextInt();
+
+        System.out.println("Enter amount to pay: ");
+        double amount = sc.nextDouble();
+
+        if(amount<=0){
+            System.out.println("Invalid amount. Payment failed.");
+            return;
+        }
+
+        ShoppingCart cart = new ShoppingCart();
+        
+
+        if(type==1){
+            bkash bkash= new bkash();
+            cart.setPayment(bkash);
+            cart.pay(amount);
+        } else if(type==2){
+            creditCard creditCard = new creditCard();
+            cart.setPayment(creditCard);
+            cart.pay(amount);
+        } else {
+            System.out.println("Invalid payment method. Payment failed.");  
+        }
+
+
+
+    }
+
+
+}
+
+
+
+
+
