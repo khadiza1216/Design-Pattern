@@ -1,0 +1,63 @@
+import java.util.Scanner;
+
+interface payment{
+  void pay(double amount);  
+}
+
+class creditcard implements payment{
+    @Override
+    public void pay(double amount){
+        System.out.println("Payment done using credit card");
+    }
+}
+
+class bkash implements payment{
+    @Override
+    public void pay(double amount){
+        System.out.println("Payment done using bkash");
+    }
+}
+
+
+class visacard implements payment{
+    @Override
+    public void pay(double amount){
+        System.out.println("Payment done using visa card");
+    }
+}
+
+
+class factory{
+    public payment makepayment(String type){
+        if(type.equals("Credit Card")){
+            return new creditcard();
+        }
+        if(type.equals("Bkash")){
+            return new bkash();
+        }
+        if(type.equals("Visa Card")){
+            return new visacard();
+        }
+        return null;
+    }
+}
+
+ class Main {
+    public static void main(String[]args){
+
+        Scanner sc = new Scanner(System.in);
+        factory f = new factory();
+
+        System.out.println("Enter the payment type: ");
+        String type = sc.nextLine();
+
+        
+        payment p = f.makepayment(type);
+        System.out.println("Enter the amount to be paid: ");
+        double amount = sc.nextDouble();
+        p.pay(amount);
+
+        
+    }
+    
+} 
