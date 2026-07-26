@@ -1,117 +1,97 @@
-// Command Interface
-interface Command {
+interface device {
+   void turnon();
+   void turnoff(); 
+}
+
+class tv implements device{
+@Override
+public void turnon(){
+    System.out.println("tv turned on");
+}
+@Override
+public void turnoff(){
+    System.out.println("tv turned off");
+}
+
+}
+
+
+interface command{
     void execute();
+
 }
 
-// Concrete Command for turning a device ON
-class TurnOnCommand implements Command {
-    private TV tv;
+class turnoncommand implements command{
+  device device;
 
-    public TurnOnCommand(TV tv) {
-        this.tv = tv;
-    }
+  turnoncommand(device device){
+    this.device=device;
+  }
+  @Override
+  public void execute(){
+    device.turnon();
+  }
 
-    @Override
-    public void execute() {
-        tv.turnOn();
-    }
 }
 
-// Concrete Command for turning a device OFF
-class TurnOffCommand implements Command {
-    private TV tv;
+class turnoffcommand implements command{
+  device device;
 
-    public TurnOffCommand(TV tv) {
-        this.tv = tv;
-    }
+  turnoffcommand(device device){
+    this.device=device;
+  }
+  @Override
+  public void execute(){
+    device.turnoff();
+  }
 
-    @Override
-    public void execute() {
-        tv.turnOff();
-    }
 }
 
-
-// Concrete Command for changing TV channel
-class ChangeChannelCommand implements Command {
-    private TV tv;
-
-    public ChangeChannelCommand(TV tv) {
-        this.tv = tv;
+public class remote {
+    command command;
+    void remote(command command){
+        this.command=command;
     }
 
-    @Override
-    public void execute() {
-        tv.changeChannel();
-    }
-}
-
-// Receiver Interface
-
-// Concrete Receiver: TV
-class TV  {
-    
-    public void turnOn() {
-        System.out.println("TV is now on");
-    }
-
-
-    public void turnOff() {
-        System.out.println("TV is now off");
-    }
-
-    public void changeChannel() {
-        System.out.println("Channel changed");
-    }
-}
-
-
-
-// Invoker
-class RemoteControl {
-    private Command command;
-
-    public void setCommand(Command command) {
-        this.command = command;
-    }
-
-    public void pressButton() {
-        if (command != null) {
+    void pressbutton(){
+        if(command!=null){
             command.execute();
-        } else {
-            System.out.println("No command assigned");
+        }else{
+            System.out.println("no command assigned");
         }
     }
 }
 
-// Main Class
-public class Main {
-    public static void main(String[] args) {
+import java.util.Scanner;
+ class main {
 
-        // Create receivers
-        TV tv = new TV();
+    public static void main(String[] args){
+        device tv=new tv();
+
+        Scanner sc= new Scanner(System.in);
+
+        System.out.println("1. turn on tv");
+        System.out.println("2. turn off tv");
+
+        int choice= sc.nextInt();
+
+
+        command on= new turnoncommand(tv);
+        command off= new turnoffcommand(tv);
+
+        remote r= new remote();
         
+        if(choice==1){
+        r.remote(on);
+        r.pressbutton();
+        }
+        else if (choice==2){
+        r.remote(off);
+        r.pressbutton();
+        }
 
-        // Create commands
-        Command turnOnTV = new TurnOnCommand(tv);
-        Command turnOffTV = new TurnOffCommand(tv);
-    
-        Command changeChannel = new ChangeChannelCommand(tv);
-
-        // Create invoker
-        RemoteControl remote = new RemoteControl();
-
-        // Execute commands
-        remote.setCommand(turnOnTV);
-        remote.pressButton();
-
-        
-        remote.pressButton();
-
-        remote.setCommand(changeChannel);
-        remote.pressButton();
-
-        remote.setCommand(turnOffTV);
-        remote.pressButton();
+        else{
+            System.out.println("invalid choice");
+        }
     }
 }
