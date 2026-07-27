@@ -1,0 +1,92 @@
+import java.util.Scanner;
+
+// Product
+class Burger {
+
+    private String bun;
+    private String cheese;
+    private String meat;
+    private String sauce;
+
+    public void setBun(String bun) {
+        this.bun = bun;
+    }
+
+    public void setCheese(String cheese) {
+        this.cheese = cheese;
+    }
+
+    public void setMeat(String meat) {
+        this.meat = meat;
+    }
+
+    public void setSauce(String sauce) {
+        this.sauce = sauce;
+    }
+
+    public void showBurger() {
+        System.out.println("\nYour Burger:");
+        System.out.println("Bun: " + bun);
+        System.out.println("Cheese: " + cheese);
+        System.out.println("Meat: " + meat);
+        System.out.println("Sauce: " + sauce);
+    }
+}
+
+// Builder
+class BurgerBuilder {
+
+    private Burger burger = new Burger();
+
+    public void addBun(String bun) {
+        burger.setBun(bun);
+    }
+
+    public void addCheese(String cheese) {
+        burger.setCheese(cheese);
+    }
+
+    public void addMeat(String meat) {
+        burger.setMeat(meat);
+    }
+
+    public void addSauce(String sauce) {
+        burger.setSauce(sauce);
+    }
+
+    public Burger build() {
+        return burger;
+    }
+}
+
+// Main
+ class Main {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter bun: ");
+        String bun = sc.nextLine();
+
+        System.out.print("Enter cheese: ");
+        String cheese = sc.nextLine();
+
+        System.out.print("Enter meat: ");
+        String meat = sc.nextLine();
+
+        System.out.print("Enter sauce: ");
+        String sauce = sc.nextLine();
+
+        BurgerBuilder builder = new BurgerBuilder();
+        builder.addBun(bun);
+        builder.addCheese(cheese);
+        builder.addMeat(meat);
+        builder.addSauce(sauce);
+        Burger burger = builder.build();
+
+        burger.showBurger();
+
+        sc.close();
+    }
+}
