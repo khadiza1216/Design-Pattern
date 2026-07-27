@@ -1,0 +1,75 @@
+import java.util.Scanner;
+
+class tv {
+    void on() {
+        System.out.println("TV is turned on");
+    }
+    
+    void off() {
+        System.out.println("TV is turned off");
+    }
+}
+
+class light {
+    void on() {
+        System.out.println("Light is turned on");
+    }
+    
+    void off() {
+        System.out.println("Light is turned off");
+    }
+}
+
+class soundsytem {
+    void on() {
+        System.out.println("Sound system is turned on");
+    }
+    
+    void off() {
+        System.out.println("Sound system is turned off");
+    }
+}
+
+
+class facade{
+    tv tv= new tv();
+    light light = new light();
+     soundsytem   soundsytem = new soundsytem();
+
+    void watchmovie() {
+        tv.on();
+        light.off();
+        soundsytem.on();
+    }
+
+    void endmovie() {
+        tv.off();
+        light.on();
+        soundsytem.off();
+    }
+}
+
+class main{
+    public static void main(String[] args) {
+       facade f = new facade();
+
+       Scanner sc = new Scanner(System.in);
+        System.out.println("1.watch movie");
+        System.out.println("2.end movie");
+        int choice = sc.nextInt();
+
+        if (choice == 1){
+            
+            f.watchmovie();
+        } else if (choice == 2){
+            f.endmovie();
+        }
+        else{
+            System.out.println("invalid input");
+        }
+
+         
+    }
+}
+
+
