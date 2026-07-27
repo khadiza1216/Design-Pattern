@@ -1,0 +1,59 @@
+import java.util.Scanner;
+
+//target
+interface usbC {
+    void connectusbC();
+    
+}
+//adaptee
+class usbA {
+    void connectusbA() {
+        System.out.println("Connecting USB A");
+    }
+}
+
+//adapter
+class usbAdapter implements usbC {
+    private usbA usbA;
+
+    public usbAdapter(usbA usbA) {
+        this.usbA = usbA;
+    }
+
+    @Override
+    public void connectusbC() {
+        System.out.println("Adapting USB C to USB A");
+        usbA.connectusbA();
+    }
+}
+
+
+
+
+
+class main {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        
+
+        System.out.println("1. Connect USB-A device");
+        System.out.println("2. Don't connect");
+
+        System.out.print("Enter choice: ");
+        int choice = sc.nextInt();
+
+
+
+        if (choice == 1) {
+            usbA a = new usbA();// adaptee er object
+            usbC c = new usbAdapter(a);// target er object 
+            c.connectusbC();// target er method call
+            
+        } else {
+            System.out.println("Program ended.");
+        }
+
+        sc.close();
+    }
+}
