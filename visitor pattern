@@ -1,0 +1,207 @@
+import java.util.Scanner;
+// Visitor Interface
+
+interface Visitor {
+
+    double visit(Electronics electronics);
+
+    double visit(Plastic plastic);
+
+    double visit(Vegetable vegetable);
+}
+
+
+// ==========================================
+// Element Interface
+// ==========================================
+
+interface Product {
+
+    String getName();
+
+    double accept(Visitor visitor);
+}
+
+
+
+
+class Electronics implements Product {
+
+    @Override
+    public String getName() {
+        return "Electronics";
+    }
+
+    @Override
+    public double accept(Visitor visitor) {
+        return visitor.visit(this);
+    }
+}
+
+
+// ==========================================
+// Plastic
+// ==========================================
+
+class Plastic implements Product {
+
+    @Override
+    public String getName() {
+        return "Plastic";
+    }
+
+    @Override
+    public double accept(Visitor visitor) {
+        return visitor.visit(this);
+    }
+}
+
+
+// ==========================================
+// Vegetable
+// ==========================================
+
+class Vegetable implements Product {
+
+    @Override
+    public String getName() {
+        return "Vegetable";
+    }
+
+    @Override
+    public double accept(Visitor visitor) {
+        return visitor.visit(this);
+    }
+}
+
+
+// ==========================================
+// Discount Visitor
+// ==========================================
+
+class DiscountVisitor implements Visitor {
+
+    @Override
+    public double visit(Electronics electronics) {
+        return 20;
+    }
+
+    @Override
+    public double visit(Plastic plastic) {
+        return 10;
+    }
+
+    @Override
+    public double visit(Vegetable vegetable) {
+        return 5;
+    }
+}
+
+
+// ==========================================
+// Return Policy Visitor
+// ==========================================
+
+class ReturnPolicyVisitor implements Visitor {
+
+    @Override
+    public double visit(Electronics electronics) {
+        return 60;
+    }
+
+    @Override
+    public double visit(Plastic plastic) {
+        return 30;
+    }
+
+    @Override
+    public double visit(Vegetable vegetable) {
+        return 0;
+    }
+}
+
+
+
+class ShippingVendorVisitor implements Visitor {
+
+    @Override
+    public double visit(Electronics electronics) {
+        return 1; // Just a dummy value
+    }
+
+    @Override
+    public double visit(Plastic plastic) {
+        return 2;
+    }
+
+    @Override
+    public double visit(Vegetable vegetable) {
+        return 3;
+    }
+}
+
+public class main {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        // Create Visitors
+        Visitor discountVisitor =new DiscountVisitor();
+
+        Visitor returnVisitor =new ReturnPolicyVisitor();
+
+        Visitor shippingVisitor =new ShippingVendorVisitor();
+
+
+        // Take user input
+        System.out.println("Choose Product Category:");
+        System.out.println("1. Electronics");
+        System.out.println("2. Plastic");
+        System.out.println("3. Vegetable");
+
+        System.out.print("Enter your choice: ");
+        int choice = sc.nextInt();
+
+
+        // Product reference
+        Product product;
+
+
+        // Select product
+        if (choice == 1) {
+
+            product = new Electronics();
+
+        } else if (choice == 2) {
+
+            product = new Plastic();
+
+        } else if (choice == 3) {
+
+            product = new Vegetable();
+
+        } else {
+
+            System.out.println("Invalid choice");
+
+            sc.close();
+
+            return;
+        }
+
+
+        // Display results
+        System.out.println( "\nCategory Name: "+ product.getName()
+        );
+
+        System.out.println( "Discount: " + product.accept(discountVisitor) + "%");
+
+        System.out.println("Return: " + product.accept(returnVisitor)+ " days");
+
+        System.out.println( "Shipping Vendor Code: " + product.accept(shippingVisitor));
+
+
+        sc.close();
+    }
+}
