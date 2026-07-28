@@ -1,0 +1,65 @@
+import java.util.Scanner;
+
+// Memento
+class Save {
+    int level;
+
+    Save(int level) {
+        this.level = level;
+    }
+}
+
+// Originator
+class Game {
+
+    int level;
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public void showLevel() {
+        System.out.println("Current Level: " + level);
+    }
+
+    public Save saveGame() {
+        return new Save(level);
+    }
+
+    public void loadGame(Save save) {
+        level = save.level;
+    }
+}
+
+// Main
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        Game game = new Game();
+
+        System.out.print("Enter current level: ");
+        int level = sc.nextInt();
+
+        game.setLevel(level);
+        game.showLevel();
+
+        // Save game
+        Save save = game.saveGame();
+
+        System.out.print("Enter new level: ");
+        int newLevel = sc.nextInt();
+
+        game.setLevel(newLevel);
+        game.showLevel();
+
+        // Load previous save
+        game.loadGame(save);
+
+        System.out.println("After Loading:");
+
+        game.showLevel();
+    }
+}
