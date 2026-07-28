@@ -1,0 +1,83 @@
+import java.util.Scanner;
+
+// Subsystem 1
+class Database {
+
+    public void checkAccount() {
+        
+        System.out.println("Account verified.");
+    }
+}
+
+// Subsystem 2
+class Calculator {
+
+    public void withdraw(double amount) {
+        System.out.println(amount + " Taka withdrawn.");
+    }
+}
+
+// Subsystem 3
+class Screen {
+
+    public void show() {
+        System.out.println("Transaction Successful.");
+    }
+}
+
+// Subsystem 4
+class Printer {
+
+    public void print(String card, double amount) {
+        System.out.println("Receipt: " + amount + " Taka deducted from " + card);
+    }
+}
+
+// Facade
+class DebitCard {
+
+    Database db = new Database();
+    Calculator cal = new Calculator();
+    Screen screen = new Screen();
+    Printer printer = new Printer();
+
+    String cardNumber;
+
+    DebitCard(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
+    public void withdraw(double amount) {
+
+        db.checkAccount();
+        cal.withdraw(amount);
+        screen.show();
+        printer.print(cardNumber, amount);
+    }
+}
+
+// Main
+ class Main {
+    public static void main(String[] args) {
+
+        // User only interacts with Facade
+        DebitCard card =
+            new DebitCard("012-3456-7890");
+
+
+        // Simple method call
+        card.withdraw(10000);
+    }
+    /*public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter card number: ");
+        String cardNumber = sc.nextLine();
+
+        DebitCard card = new DebitCard(cardNumber);
+
+        System.out.print("Enter withdrawal amount: ");
+        double amount = sc.nextDouble();
+
+        card.withdraw(amount);
+    }*/
+}
