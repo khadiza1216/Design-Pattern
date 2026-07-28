@@ -1,0 +1,74 @@
+import java.util.ArrayList;
+public class User {
+    private String name;
+    private int age;
+    public User(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public void getNotification(String message) {
+        System.out.println("To: " + name + ": " + message);
+    }
+
+    public void subscribe(Channel c) {
+        c.addUser(this);
+        System.out.println("Subscribed Successfully");
+    }
+
+    public void unsubscribe(Channel c) {
+        c.removeUser(this);
+        System.out.println("Unsubscribed Successfully");
+    }
+}
+
+
+public class Channel {
+    private String channelName;
+    private ArrayList<User> subscribers;
+
+    public Channel(String channelName) {
+        this.subscribers = new ArrayList<>();
+        this.channelName = channelName;
+    }
+
+    public void notify(String message) {
+        message = "From: " + this.channelName + ": " + message;
+        for (User user : subscribers) {
+            user.getNotification(message);
+        }
+    }
+
+    public void addUser(User user) {
+        if (!subscribers.contains(user)) {
+            this.subscribers.add(user);
+        }
+    }
+
+    public void removeUser(User user) {
+        this.subscribers.remove(user);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        User a = new User("Bob", 20);
+        User b = new User("John", 30);
+        User c = new User("Jane", 40);
+        User d = new User("Mary", 50);
+        User e = new User("Joe", 60);
+        User f = new User("Yane", 70);
+
+        Channel c1 = new Channel("International News");
+        Channel c2 = new Channel("Sports News");
+        Channel c3 = new Channel("Miscellaneous");
+
+        a.subscribe(c2);
+        a.subscribe(c3);
+        b.subscribe(c1);
+        c.subscribe(c1);
+
+        c1.notify("War stops in Middle East.");
+
+    }
+}
