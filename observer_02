@@ -1,0 +1,69 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+// Observer
+interface Observer {
+
+    void update(String message);
+}
+
+// Concrete Observer
+class Subscriber implements Observer {
+
+    String name;
+
+    Subscriber(String name) {
+        this.name = name;
+    }
+
+    public void update(String message) {
+
+        System.out.println(name + " received: " + message);
+    }
+}
+
+// Subject
+class YouTubeChannel {
+
+    ArrayList<Observer> subscribers = new ArrayList<>();
+
+    public void subscribe(Observer observer) {
+
+        subscribers.add(observer);
+    }
+
+    public void notifySubscribers(String message) {
+
+        for (Observer observer : subscribers) {
+
+            observer.update(message);
+        }
+    }
+}
+
+// Main
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        YouTubeChannel channel = new YouTubeChannel();
+
+        System.out.print("Enter Subscriber 1: ");
+        Subscriber s1 = new Subscriber(sc.nextLine());
+
+        System.out.print("Enter Subscriber 2: ");
+        Subscriber s2 = new Subscriber(sc.nextLine());
+
+        channel.subscribe(s1);
+        channel.subscribe(s2);
+
+        System.out.print("Enter New Video Title: ");
+        String video = sc.nextLine();
+
+        channel.notifySubscribers(video);
+
+        sc.close();
+    }
+}
