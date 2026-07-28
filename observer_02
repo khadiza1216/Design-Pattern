@@ -3,7 +3,6 @@ import java.util.Scanner;
 
 // Observer
 interface Observer {
-
     void update(String message);
 }
 
@@ -17,26 +16,33 @@ class Subscriber implements Observer {
     }
 
     public void update(String message) {
-
-        System.out.println(name + " received: " + message);
+        System.out.println(name + " received notification: " + message);
     }
 }
 
 // Subject
 class YouTubeChannel {
 
-    ArrayList<Observer> subscribers = new ArrayList<>();
+    ArrayList<Subscriber> subscribers = new ArrayList<>();
 
-    public void subscribe(Observer observer) {
-
-        subscribers.add(observer);
+    // Subscribe
+    public void subscribe(Subscriber s) {
+        subscribers.add(s);
+        System.out.println(s.name + " subscribed.");
     }
 
-    public void notifySubscribers(String message) {
+    // Unsubscribe
+    public void unsubscribe(Subscriber s) {
+        subscribers.remove(s);
+        System.out.println(s.name + " unsubscribed.");
+    }
 
-        for (Observer observer : subscribers) {
+    // Notify
+    public void uploadVideo(String title) {
+        System.out.println("\nNew Video Uploaded: " + title);
 
-            observer.update(message);
+        for (Subscriber s : subscribers) {
+            s.update(title);
         }
     }
 }
@@ -50,20 +56,70 @@ public class Main {
 
         YouTubeChannel channel = new YouTubeChannel();
 
-        System.out.print("Enter Subscriber 1: ");
-        Subscriber s1 = new Subscriber(sc.nextLine());
+        while (true) {
 
-        System.out.print("Enter Subscriber 2: ");
-        Subscriber s2 = new Subscriber(sc.nextLine());
+            System.out.println("\n1. Subscribe");
+            System.out.println("2. Unsubscribe");
+            System.out.println("3. Upload Video");
+            System.out.println("4. Exit");
 
-        channel.subscribe(s1);
-        channel.subscribe(s2);
+            System.out.print("Enter Choice: ");
+            int choice = sc.nextInt();
+            sc.nextLine();
 
-        System.out.print("Enter New Video Title: ");
-        String video = sc.nextLine();
+            switch (choice) {
 
-        channel.notifySubscribers(video);
+                case 1:
 
-        sc.close();
+                    System.out.print("Enter Subscriber Name: ");
+                    String name = sc.nextLine();
+
+                    Subscriber s = new Subscriber(name);
+                    channel.subscribe(s);
+
+                    break;
+
+                case 2:
+
+                    System.out.print("Enter Subscriber Name: ");
+                    String removeName = sc.nextLine();
+
+                    Subscriber removeSubscriber = null;
+
+                    for (Subscriber sub : channel.subscribers) {
+                        if (sub.name.equalsIgnoreCase(removeName)) {
+                            removeSubscriber = sub;
+                            break;
+                        }
+                    }
+
+                    if (removeSubscriber != null) {
+                        channel.unsubscribe(removeSubscriber);
+                    } else {
+                        System.out.println("Subscriber not found.");
+                    }
+
+                    break;
+
+                case 3:
+
+                    System.out.print("Enter Video Title: ");
+                    String title = sc.nextLine();
+
+                    channel.uploadVideo(title);
+
+                    break;
+
+                case 4:
+
+                    System.out.println("Program End.");
+                    sc.close();
+                    return;
+
+                default:
+
+                    System.out.println("Invalid Choice.");
+            }
+        }
     }
 }
