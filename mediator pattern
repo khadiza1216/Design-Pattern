@@ -1,0 +1,46 @@
+import java.util.Scanner;
+interface Mediator {
+    void send(String message);
+}
+
+class ATC implements Mediator {
+
+    @Override
+    public void send(String message) {
+        System.out.println("ATC: " + message);
+    }
+}
+
+class Plane {
+    String name;
+    Mediator atc;
+
+    Plane(String name, Mediator atc) {
+        this.name = name;
+        this.atc = atc;
+    }
+
+    void requestLanding() {
+        atc.send(name + " requests permission to land.");
+    }
+}
+
+
+
+public class main {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        ATC atc = new ATC();
+
+        System.out.print("Enter plane name: ");
+        String name = sc.nextLine();
+
+        Plane plane = new Plane(name, atc);
+
+        plane.requestLanding();
+
+        sc.close();
+    }
+}
